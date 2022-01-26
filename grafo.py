@@ -1,3 +1,4 @@
+import math
 arq=open("entrada.txt")
 qtvertices=arq.readline()
 qtvertices= int(qtvertices)
@@ -18,8 +19,9 @@ for i in linhas:
     matpes[posy-1][posx-1]=peso
 print("A ordem desse grafo é:",qtvertices)
 print("O tamanho desse grafo é:",tamanho)
-print(matadj)
-print(matpes)
+print("A densidade desse grafo é ε(G):",abs(tamanho)/abs(qtvertices))
+print("Matriz adjascente:\n",matadj)
+print("Matriz de pesos:\n",matpes)
 
 
 
