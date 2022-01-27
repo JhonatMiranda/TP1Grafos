@@ -22,6 +22,25 @@ print("O tamanho desse grafo é:",tamanho)
 print("A densidade desse grafo é ε(G):",abs(tamanho)/abs(qtvertices))
 print("Matriz adjascente:\n",matadj)
 print("Matriz de pesos:\n",matpes)
+numvertice=int(input("Digite o número do vértice para mostrar os vizinhos:"))
+for i in range(qtvertices):
+    for j in range(qtvertices):
+        if i == (numvertice-1):
+            if matadj[i][j]==1:
+                print("O vértice",j+1,"é vizinho do vértice",numvertice)
+numvertice=int(input("Digite o número do vértice para mostrar o grau:"))
+grau=0
+for i in range(qtvertices):
+    for j in range(qtvertices):
+        if i == (numvertice-1):
+            if matadj[i][j]==1:
+                grau=grau+1
+print("O grau do vertice",numvertice,"é:",grau)
+
+
+
+
+
 
 
 
