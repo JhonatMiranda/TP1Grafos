@@ -33,6 +33,8 @@ def mostragrau(matpes):
     print("O grau do vertice", numvertice, "é:", grau)
 
 
+#----------------------------------------------------- --------------------------------------------------#
+
 arq = open("entrada.txt")
 qtvertices = arq.readline()
 qtvertices = int(qtvertices)
