@@ -9,36 +9,36 @@ class Graph():
     def add_graph(self, u, v):
         self.graph[u].append(v)
 
-def mostraordem(ordem):
-    print("A ordem desse grafo é:", ordem)
+    def mostraordem(ordem):
+        print("A ordem desse grafo é:", ordem)
 
 
-def mostratamanho(tamanho):
-    print("O tamanho desse grafo é:", tamanho)
+    def mostratamanho(tamanho):
+        print("O tamanho desse grafo é:", tamanho)
 
 
-def mostradensidade(tamanho, qtvertices):
-    print("A densidade desse grafo é ε(G):", abs(tamanho) / abs(qtvertices))
+    def mostradensidade(tamanho, qtvertices):
+        print("A densidade desse grafo é ε(G):", abs(tamanho) / abs(qtvertices))
 
 
-def mostravizinhos(matpes):
-    numvertice = int(input("Digite o número do vértice para mostrar os vizinhos:"))
-    for i in range(qtvertices):
-        for j in range(qtvertices):
-            if i == (numvertice - 1):
-                if matpes[i][j] != 0:
-                    print("O vértice", j + 1, "é vizinho do vértice", numvertice)
+    def mostravizinhos(matpes):
+        numvertice = int(input("Digite o número do vértice para mostrar os vizinhos:"))
+        for i in range(qtvertices):
+            for j in range(qtvertices):
+                if i == (numvertice - 1):
+                    if matpes[i][j] != 0:
+                        print("O vértice", j + 1, "é vizinho do vértice", numvertice)
 
 
-def mostragrau(matpes):
-    numvertice = int(input("Digite o número do vértice para mostrar o grau:"))
-    grau = 0
-    for i in range(qtvertices):
-        for j in range(qtvertices):
-            if i == (numvertice - 1):
-                if matpes[i][j] != 0:
-                    grau = grau + 1
-    print("O grau do vertice", numvertice, "é:", grau)
+    def mostragrau(matpes):
+        numvertice = int(input("Digite o número do vértice para mostrar o grau:"))
+        grau = 0
+        for i in range(qtvertices):
+            for j in range(qtvertices):
+                if i == (numvertice - 1):
+                    if matpes[i][j] != 0:
+                        grau = grau + 1
+        print("O grau do vertice", numvertice, "é:", grau)
 
 
 #----------------------------------------------------- --------------------------------------------------#
