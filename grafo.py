@@ -1,6 +1,5 @@
 import math
 
-
 def mostraordem(ordem):
     print("A ordem desse grafo é:", ordem)
 
@@ -37,7 +36,6 @@ arq = open("entrada.txt")
 qtvertices = arq.readline()
 qtvertices = int(qtvertices)
 linhas = arq.readlines()
-# matadj = [[0 for j in range(qtvertices)] for i in range(qtvertices)]
 matpes = [[0 for j in range(qtvertices)] for i in range(qtvertices)]
 tamanho = 0
 for i in linhas:
@@ -47,16 +45,10 @@ for i in linhas:
     peso = i.split(" ")
     peso = peso[2].replace('\n', "")
     peso = float(peso)
-    # matadj[posx - 1][posy - 1] = 1
-    # matadj[posy - 1][posx - 1] = 1
     matpes[posx - 1][posy - 1] = peso
     matpes[posy - 1][posx - 1] = peso
-# mostraordem(qtvertices)
-# mostratamanho(tamanho)
-# mostradensidade(tamanho, qtvertices)
-mostravizinhos(matpes)
-mostragrau(matpes)
-# print("Matriz adjascente:\n", matadj)
+# mostravizinhos(matpes)
+# mostragrau(matpes)
 print("Matriz de pesos:\n", matpes)
 
 
