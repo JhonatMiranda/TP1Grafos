@@ -1,4 +1,5 @@
 import math
+from collections import defaultdict
 
 def mostraordem(ordem):
     print("A ordem desse grafo é:", ordem)
@@ -31,6 +32,8 @@ def mostragrau(matpes):
                     grau = grau + 1
     print("O grau do vertice", numvertice, "é:", grau)
 
+
+#----------------------------------------------------- --------------------------------------------------#
 
 arq = open("entrada.txt")
 qtvertices = arq.readline()
