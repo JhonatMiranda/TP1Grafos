@@ -1,5 +1,13 @@
 import math
+from collections import defaultdict
 
+class Graph():
+    def __init__(self, vertices) -> None:
+        self.graph = defaultdict(list)
+        self.V = vertices
+    
+    def add_graph(self, u, v):
+        self.graph[u].append(v)
 
 def mostraordem(ordem):
     print("A ordem desse grafo é:", ordem)
