@@ -78,7 +78,7 @@ class Graph():
         parent[] --> Stores parent vertices in DFS tree
         ap[] --> Store articulation points'''
 
-    def APUtil(self, u, visited, ap, parent, low, disc):
+    def ap_util(self, u, visited, ap, parent, low, disc):
 
         # Count of children in current node
         children = 0
@@ -136,12 +136,12 @@ class Graph():
         # in DFS tree rooted with vertex 'i'
         for i in range(self.V):
             if visited[i] == False:
-                self.APUtil(i, visited, ap, parent, low, disc)
+                self.ap_util(i, visited, ap, parent, low, disc)
 
         for index, value in enumerate(ap):
             if value == True: print(index, end=" ")
 
-    def Unmark_All(self, marked):
+    def unmark_all(self, marked):
         for i in xrange(0, self.V):
             temp = self.graph[i]
             marked.append(False)
@@ -151,10 +151,10 @@ class Graph():
 
 
     # Function to print a BFS of graph
-    def BFS(self, s,matriz_retorno):
+    def BFS(self, s, matriz_retorno):
 
         marcados = []
-        self.Unmark_All(marcados)
+        self.unmark_all(marcados)
         # Mark all the vertices as not visited
         visited = [False] * (max(self.graph) + 1)
 
