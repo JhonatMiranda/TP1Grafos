@@ -3,8 +3,10 @@ import sys
 import numpy as np
 import networkx as nx
 from platform import node
+from menu import simpleMenu, pause
 from collections import defaultdict
 from ipython_genutils.py3compat import xrange
+
 
 
 class Heap():
@@ -419,16 +421,56 @@ if __name__ == "__main__":
                     linha_limpa[1]), float(linha_limpa[2]))
         except:
             print("erro")
-    # matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
-    # matpes.BFS(1,matriz_aresta_retorno)
-    # print()
-    # for i in range(qtvertices):
-    #     for j in range(qtvertices):
-    #       if matriz_aresta_retorno[i][j] == 1:
-    #           print(i+1,j+1)
-    #           matriz_aresta_retorno[j][i] = 0
+    # 
     # if matpes.isCyclic() == True:
     #     print("Grafo com ciclo")
     # else:
     #     print("Grafo sem ciclo")
-    matpes.printEulerTour()
+    
+    def option_1():
+        arq = open("../out/saida.txt", "a")
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("\nO grafo tem ordem {}\n".format(matpes.ordem())) 
+        arq.close()
+        print("\nO grafo tem ordem {}\n".format(matpes.ordem()))
+        pause()
+    
+    def option_2():
+        arq = open("../out/saida.txt","a")      
+        arq.write("\n--------------------------------------------------\n")
+        arq.write("\nO grafo tem tamanho {}\n".format(matpes.tamanho())) 
+        arq.close()
+        print("\nO grafo tem tamanho {}\n".format(matpes.tamanho()))
+        pause()
+
+    def option_3():
+        print("Densidade do grafo: ", matpes.densidade())
+        pause()
+    
+    def option_4():
+        vert = int(input("Digite o valor do vertice: "))
+        matpes.vizinhos(vert)
+        pause()
+    
+    def option_5():
+        vert = int(input("Digite o valor do vertice: "))
+        matpes.grau(vert)
+        pause
+    
+    def option_6():
+        matpes.AP()
+        pause()
+    
+    def option_7():
+        matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
+        matpes.BFS(1,matriz_aresta_retorno)
+        print()
+        for i in range(qtvertices):
+            for j in range(qtvertices):
+              if matriz_aresta_retorno[i][j] == 1:
+                  print(i+1,j+1)
+                  matriz_aresta_retorno[j][i] = 0
+        pause()
+    
+    def option_8():
+        
