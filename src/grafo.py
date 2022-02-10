@@ -353,7 +353,54 @@ class Graph():
                 aux = aux.next
         printArr(parent, V, self.graph)
 
+    def rmvEdge(self, u, v):
+        for index, key in enumerate(self.graph[u]):
+            if key == v:
+                self.graph[u].pop(index)
+        for index, key in enumerate(self.graph[v]):
+            if key == u:
+                self.graph[v].pop(index)
 
+    def DFSCount(self, v, visited):
+        count = 1
+        visited[v] = True
+        aux = self.graph[v]
+        while aux:
+            if visited[aux.vertice] == False:
+                count = count + self.DFSCount(aux.vertice, visited)
+            aux=aux.next
+        return count
+
+
+    def isValidNextEdge(self, u, v):
+        if len(self.graph[u]) == 1:
+            return True
+        else:
+            visited = [False] * (self.V)
+            count1 = self.DFSCount(u, visited)
+            self.rmvEdge(u, v)
+            visited = [False] * (self.V)
+            count2 = self.DFSCount(u, visited)
+            self.addEdge(u, v)
+            return False if count1 > count2 else True
+
+
+    def printEulerUtil(self, u):
+        aux = self.graph[u]
+        while aux:
+            if self.isValidNextEdge(u, aux.vertice):
+                print("%d-%d " % (u, aux.vertice)),
+                self.rmvEdge(u, aux.vertice)
+                self.printEulerUtil(aux.vertice)
+            aux=aux.next
+    def printEulerTour(self):
+        u = 0
+        for i in range(self.V):
+            if len(self.graph) % 2 != 0:
+                u = i
+                break
+        print("\n")
+        self.printEulerUtil(u)
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -384,4 +431,4 @@ if __name__ == "__main__":
     #     print("Grafo com ciclo")
     # else:
     #     print("Grafo sem ciclo")
-    matpes.PrimMST()
+    matpes.printEulerTour()
