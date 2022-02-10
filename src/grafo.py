@@ -70,71 +70,51 @@ class Graph():
                 aux = aux.next
         print("O grau do vértice", vertice_escolhido, "é", grau)
 
-    '''A recursive function that find articulation points
-        using DFS traversal
-        u --> The vertex to be visited next
-        visited[] --> keeps track of visited vertices
-        disc[] --> Stores discovery times of visited vertices
-        parent[] --> Stores parent vertices in DFS tree
-        ap[] --> Store articulation points'''
+
 
     def ap_util(self, u, visited, ap, parent, low, disc):
 
-        # Count of children in current node
         children = 0
 
-        # Mark the current node as visited and print it
         visited[u] = True
 
-        # Initialize discovery time and low value
         disc[u] = self.Time
         low[u] = self.Time
         self.Time += 1
 
         aux = self.graph[u]
-        # Recur for all the vertices adjacent to this vertex
+
         while aux:
-            # If v is not visited yet, then make it a child of u
-            # in DFS tree and recur for it
+
             if visited[aux.vertice] == False:
                 parent[aux.vertice] = u
                 children += 1
                 self.APUtil(aux.vertice, visited, ap, parent, low, disc)
 
-                # Check if the subtree rooted with v has a connection to
-                # one of the ancestors of u
                 low[u] = min(low[u], low[aux.vertice])
 
-                # u is an articulation point in following cases
-                # (1) u is root of DFS tree and has two or more children.
                 if parent[u] == -1 and children > 1:
                     ap[u] = True
 
-                # (2) If u is not root and low value of one of its child is more
-                # than discovery value of u.
+
                 if parent[u] != -1 and low[aux.vertice] >= disc[u]:
                     ap[u] = True
 
-                    # Update low value of u for parent function calls
+
             elif aux.vertice != parent[u]:
                 low[u] = min(low[u], disc[aux.vertice])
             aux = aux.next
 
-    # The function to do DFS traversal. It uses recursive APUtil()
+
     def AP(self):
 
-        # Mark all the vertices as not visited
-        # and Initialize parent and visited,
-        # and ap(articulation point) arrays
         visited = [False] * (self.V)
         disc = [float("Inf")] * (self.V)
         low = [float("Inf")] * (self.V)
         parent = [-1] * (self.V)
-        ap = [False] * (self.V)  # To store articulation points
+        ap = [False] * (self.V)  
 
-        # Call the recursive helper function
-        # to find articulation points
-        # in DFS tree rooted with vertex 'i'
+
         for i in range(self.V):
             if visited[i] == False:
                 self.ap_util(i, visited, ap, parent, low, disc)
@@ -150,34 +130,22 @@ class Graph():
                 temp.explored = False
                 temp = temp.next
 
-    # Function to print a BFS of graph
     def BFS(self, s, matriz_retorno):
 
         marcados = []
         self.unmark_all(marcados)
-        # Mark all the vertices as not visited
         visited = [False] * (max(self.graph) + 1)
 
-        # Create a queue for BFS
         queue = []
 
-        # Mark the source node as
-        # visited and enqueue it
         queue.append(s)
         visited[s] = True
 
         while queue:
-
-            # Dequeue a vertex from
-            # queue and print it
             s = queue.pop(0)
             print(s, end=" ")
 
             aux = self.graph[s]
-            # Get all adjacent vertices of the
-            # dequeued vertex s. If a adjacent
-            # has not been visited, then mark it
-            # visited and enqueue it
             while aux:
                 if visited[aux.vertice] == False:
                     aux.explored = True
@@ -230,35 +198,26 @@ class Graph():
             aux_graph = aux_graph.next
         return aux
 
-    def isCyclicUtil(self, v, visited, recStack):
-
-        # Mark current node as visited and
-        # adds to recursion stack
-        visited[v] = True
-        recStack[v] = True
-        aux_graph = self.graph[v]
-        while aux_graph:
-            if visited[aux_graph.vertice] == False:
-                if self.isCyclicUtil(aux_graph.vertice, visited, recStack) == True:
+    def isCyclicUtil(self, v, visited, parent):
+            visited[v] = True
+            aux = self.graph[v]
+            while aux:
+                if not visited[aux.vertice]:
+                    if self.isCyclicUtil(aux.vertice, visited, v):
+                        return True
+                elif parent != aux.vertice:
                     return True
-            elif recStack[aux_graph.vertice] == True:
-                return True
-            aux_graph=aux_graph.next
-        # The node needs to be poped from
-        # recursion stack before function ends
-        recStack[v] = False
-        return False
+                aux = aux.next
+            return False
 
-    # Returns true if graph is cyclic else false
     def isCyclic(self):
-        visited = [False] * (self.V + 1)
-        recStack = [False] * (self.V + 1)
-        for node in range(self.V):
-            if visited[node] == False:
-                if self.isCyclicUtil(node, visited, recStack) == True:
-                    return True
-        return False
-
+            visited =[False]*(self.V)
+            for i in range(self.V):
+                if visited[i] ==False:
+                    if(self.isCyclicUtil
+                        (i,visited,-1)) == True:
+                        return True
+            return False
 
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
