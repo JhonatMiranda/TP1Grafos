@@ -68,7 +68,6 @@ class Heap():
 
     def decreaseKey(self, v, dist):
 
-
         i = self.pos[v]
 
         self.array[i][1] = dist
@@ -79,7 +78,7 @@ class Heap():
             self.pos[self.array[(i - 1) // 2][0]] = i
             self.swapMinHeapNode(i, (i - 1) // 2)
 
-            i = (i - 1) // 2;
+            i = (i - 1) // 2
 
     def isInMinHeap(self, v):
 
@@ -137,7 +136,7 @@ class Graph():
         return self.tamanho() / (self.V - 1)
 
     def vizinhos(self, vertice_escolhido):
-        vizinhos=[]
+        vizinhos = []
         encontrado = False
         for i in range(self.V):
             if i == vertice_escolhido:
@@ -147,6 +146,7 @@ class Graph():
                     vizinhos.append(aux.vertice)
                     aux = aux.next
         return vizinhos
+
     def grau(self, vertice_escolhido):
         grau = 0
         for i in range(self.V):
@@ -156,8 +156,6 @@ class Graph():
                     grau += 1
                 aux = aux.next
         print("O grau do vértice", vertice_escolhido, "é", grau)
-
-
 
     def ap_util(self, u, visited, ap, parent, low, disc):
 
@@ -183,15 +181,12 @@ class Graph():
                 if parent[u] == -1 and children > 1:
                     ap[u] = True
 
-
                 if parent[u] != -1 and low[aux.vertice] >= disc[u]:
                     ap[u] = True
-
 
             elif aux.vertice != parent[u]:
                 low[u] = min(low[u], disc[aux.vertice])
             aux = aux.next
-
 
     def AP(self):
 
@@ -199,15 +194,15 @@ class Graph():
         disc = [float("Inf")] * (self.V)
         low = [float("Inf")] * (self.V)
         parent = [-1] * (self.V)
-        ap = [False] * (self.V)  
-
+        ap = [False] * (self.V)
 
         for i in range(self.V):
             if visited[i] == False:
                 self.ap_util(i, visited, ap, parent, low, disc)
 
         for index, value in enumerate(ap):
-            if value == True: print(index, end=" ")
+            if value == True:
+                print(index, end=" ")
 
     def unmark_all(self, marked):
         for i in xrange(0, self.V):
@@ -286,25 +281,25 @@ class Graph():
         return aux
 
     def isCyclicUtil(self, v, visited, parent):
-            visited[v] = True
-            aux = self.graph[v]
-            while aux:
-                if not visited[aux.vertice]:
-                    if self.isCyclicUtil(aux.vertice, visited, v):
-                        return True
-                elif parent != aux.vertice:
+        visited[v] = True
+        aux = self.graph[v]
+        while aux:
+            if not visited[aux.vertice]:
+                if self.isCyclicUtil(aux.vertice, visited, v):
                     return True
-                aux = aux.next
-            return False
+            elif parent != aux.vertice:
+                return True
+            aux = aux.next
+        return False
 
     def isCyclic(self):
-            visited =[False]*(self.V)
-            for i in range(self.V):
-                if visited[i] ==False:
-                    if(self.isCyclicUtil
-                        (i,visited,-1)) == True:
-                        return True
-            return False
+        visited = [False]*(self.V)
+        for i in range(self.V):
+            if visited[i] == False:
+                if(self.isCyclicUtil
+                        (i, visited, -1)) == True:
+                    return True
+        return False
 
     def PrimMST(self):
         V = self.V
@@ -316,7 +311,7 @@ class Graph():
         minHeap = Heap()
 
         for v in range(V):
-            parent.append(-1)
+            parent.append(1)
             key.append(1e7)
             minHeap.array.append(minHeap.newMinHeapNode(v, key[v]))
             minHeap.pos.append(v)
@@ -325,24 +320,24 @@ class Graph():
         key[0] = 0
         minHeap.decreaseKey(0, key[0])
 
-        minHeap.size = V;
+        minHeap.size = V
 
         while minHeap.isEmpty() == False:
 
             newHeapNode = minHeap.extractMin()
             u = newHeapNode[0]
 
-            for pCrawl in self.graph[u]:
-
-                v = pCrawl[0]
-
-                if minHeap.isInMinHeap(v) and pCrawl[1] < key[v]:
-                    key[v] = pCrawl[1]
+            aux = self.graph[u]
+            while aux:
+                v = aux.vertice
+                weight = aux.weight
+                if minHeap.isInMinHeap(v) and weight < key[v]:
                     parent[v] = u
-
+                    key[v] = weight
                     minHeap.decreaseKey(v, key[v])
-
+                aux = aux.next
         printArr(parent, V)
+
 
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
@@ -358,7 +353,8 @@ if __name__ == "__main__":
                 break
             else:
                 linha_limpa = linha.split(" ")
-                matpes.add_edge(int(linha_limpa[0]), int(linha_limpa[1]), float(linha_limpa[2]))
+                matpes.add_edge(int(linha_limpa[0]), int(
+                    linha_limpa[1]), float(linha_limpa[2]))
         except:
             print("erro")
     # matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
