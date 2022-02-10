@@ -87,8 +87,14 @@ class Heap():
         return False
 
 
-def printArr(parent, n):
+def printArr(parent, n,grafo):
+    pesototal=0
+    vetoraux=[]
     for i in range(1, n):
+        vetoraux=matpes.vizinhos(i)
+        for j in range (len(vetoraux)):
+            if parent[i] == vetoraux[j]:
+                print(grafo[i].next.weight)
         print("% d - % d" % (parent[i], i))
 
 
@@ -336,7 +342,7 @@ class Graph():
                     key[v] = weight
                     minHeap.decreaseKey(v, key[v])
                 aux = aux.next
-        printArr(parent, V)
+        printArr(parent, V,self.graph)
 
 
 # ----------------------------------------------------- --------------------------------------------------#
