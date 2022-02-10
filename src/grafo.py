@@ -219,6 +219,7 @@ class Graph():
                         return True
             return False
 
+
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -244,4 +245,7 @@ if __name__ == "__main__":
     #       if matriz_aresta_retorno[i][j] == 1:
     #           print(i+1,j+1)
     #           matriz_aresta_retorno[j][i] = 0
-    print(matpes.isCyclic())
+    if matpes.isCyclic() == True:
+        print("Grafo com ciclo")
+    else:
+        print("Grafo sem ciclo")
