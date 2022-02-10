@@ -220,8 +220,6 @@ class Graph():
             return False
 
 
-<<<<<<< Updated upstream
-=======
     def printArr(self, dist):
         print("Vertex Distance from Source")
         for i in range(self.V):
@@ -238,7 +236,6 @@ class Graph():
                 print("Graph contains negative weight cycle")
                 return
         self.printArr(dist)
->>>>>>> Stashed changes
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -264,12 +261,8 @@ if __name__ == "__main__":
     #       if matriz_aresta_retorno[i][j] == 1:
     #           print(i+1,j+1)
     #           matriz_aresta_retorno[j][i] = 0
-<<<<<<< Updated upstream
-    if matpes.isCyclic() == True:
-        print("Grafo com ciclo")
-    else:
-        print("Grafo sem ciclo")
-=======
-    # print(matpes.isCyclic())
+    # if matpes.isCyclic() == True:
+    #     print("Grafo com ciclo")
+    # else:
+    #     print("Grafo sem ciclo")
     matpes.BellmanFord(0)
->>>>>>> Stashed changes
