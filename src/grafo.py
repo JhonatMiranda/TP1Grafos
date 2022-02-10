@@ -19,7 +19,7 @@ class Graph():
     def __init__(self, vertices):
         self.graph = defaultdict(list)
         self.V = vertices
-        self.Time=0
+        self.Time = 0
         self.G = nx.Graph()
 
     def add_edge(self, u, v, weight):
@@ -91,7 +91,7 @@ class Graph():
         low[u] = self.Time
         self.Time += 1
 
-        aux=self.graph[u]
+        aux = self.graph[u]
         # Recur for all the vertices adjacent to this vertex
         while aux:
             # If v is not visited yet, then make it a child of u
@@ -118,7 +118,8 @@ class Graph():
                     # Update low value of u for parent function calls
             elif aux.vertice != parent[u]:
                 low[u] = min(low[u], disc[aux.vertice])
-            aux=aux.next
+            aux = aux.next
+
     # The function to do DFS traversal. It uses recursive APUtil()
     def AP(self):
 
@@ -149,9 +150,8 @@ class Graph():
                 temp.explored = False
                 temp = temp.next
 
-
     # Function to print a BFS of graph
-    def BFS(self, s,matriz_retorno):
+    def BFS(self, s, matriz_retorno):
 
         marcados = []
         self.Unmark_All(marcados)
@@ -180,7 +180,7 @@ class Graph():
             # visited and enqueue it
             while aux:
                 if visited[aux.vertice] == False:
-                    aux.explored=True
+                    aux.explored = True
                     queue.append(aux.vertice)
                     visited[aux.vertice] = True
                     aux_temp = self.graph[aux.vertice]
@@ -194,9 +194,10 @@ class Graph():
                         aux_temp = self.graph[aux.vertice]
                         while aux_temp:
                             if aux_temp.vertice == s:
-                                matriz_retorno[s-1][aux.vertice-1]=1
-                            aux_temp=aux_temp.next
+                                matriz_retorno[s - 1][aux.vertice - 1] = 1
+                            aux_temp = aux_temp.next
                 aux = aux.next
+
     def print_graph(self):
         for i in range(1, self.V):
             print("Lista de vertices adjacentes {}\n cabecalho".format(i), end="")
@@ -205,6 +206,58 @@ class Graph():
                 print(" -- {} W: {} || ".format(temp.vertice, temp.weight), end="")
                 temp = temp.next
             print(" \n")
+
+    def componentes_conexas(self):
+        visitados = []
+        compconex = []
+        for i in range(self.V):
+            visitados.append(False)
+        for i in range(1, self.V):
+            if not visitados[i]:
+                aux = []
+                compconex.append(self.DFScompconexas(aux, i, visitados))
+        return compconex
+
+    def DFScompconexas(self, aux, i, visitados):
+        visitados[i] = True
+        aux.append(i)
+
+        aux_graph = self.graph[i]
+
+        while aux_graph:
+            if not visitados[aux_graph.vertice]:
+                aux = self.DFScompconexas(aux, aux_graph.vertice, visitados)
+            aux_graph = aux_graph.next
+        return aux
+
+    def isCyclicUtil(self, v, visited, recStack):
+
+        # Mark current node as visited and
+        # adds to recursion stack
+        visited[v] = True
+        recStack[v] = True
+        aux_graph = self.graph[v]
+        while aux_graph:
+            if visited[aux_graph.vertice] == False:
+                if self.isCyclicUtil(aux_graph.vertice, visited, recStack) == True:
+                    return True
+            elif recStack[aux_graph.vertice] == True:
+                return True
+            aux_graph=aux_graph.next
+        # The node needs to be poped from
+        # recursion stack before function ends
+        recStack[v] = False
+        return False
+
+    # Returns true if graph is cyclic else false
+    def isCyclic(self):
+        visited = [False] * (self.V + 1)
+        recStack = [False] * (self.V + 1)
+        for node in range(self.V):
+            if visited[node] == False:
+                if self.isCyclicUtil(node, visited, recStack) == True:
+                    return True
+        return False
 
 
 # ----------------------------------------------------- --------------------------------------------------#
@@ -224,11 +277,12 @@ if __name__ == "__main__":
                 matpes.add_edge(int(linha_limpa[0]), int(linha_limpa[1]), float(linha_limpa[2]))
         except:
             print("erro")
-    matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
-    matpes.BFS(1,matriz_aresta_retorno)
-    print()
-    for i in range(qtvertices):
-        for j in range(qtvertices):
-          if matriz_aresta_retorno[i][j] == 1:
-              print(i+1,j+1)
-              matriz_aresta_retorno[j][i] = 0
+    # matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
+    # matpes.BFS(1,matriz_aresta_retorno)
+    # print()
+    # for i in range(qtvertices):
+    #     for j in range(qtvertices):
+    #       if matriz_aresta_retorno[i][j] == 1:
+    #           print(i+1,j+1)
+    #           matriz_aresta_retorno[j][i] = 0
+    print(matpes.isCyclic())
