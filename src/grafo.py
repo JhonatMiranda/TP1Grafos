@@ -87,15 +87,24 @@ class Heap():
         return False
 
 
-def printArr(parent, n,grafo):
-    pesototal=0
-    vetoraux=[]
+def printArr(parent, n, grafo):
+    pesototal = 0
+    vetoraux = []
+    arq = open("../out/saida.txt", "w")
+    arq.write("Lista de arestas da MST: \n")
     for i in range(1, n):
-        vetoraux=matpes.vizinhos(i)
-        for j in range (len(vetoraux)):
-            if parent[i] == vetoraux[j]:
-                print(grafo[i].next.weight)
+        vetoraux = matpes.vizinhos(i)
+        if(vetoraux.index(parent[i])):
+            pesototal += grafo[i].next.weight
+        else:
+            pesototal += grafo[i].weight
         print("% d - % d" % (parent[i], i))
+
+        arq.write("{} - {} \n".format(parent[i], i))
+
+    arq.write("\nPeso total: {0:.2f} \n".format(pesototal))
+    print("Peso total: %.2f" % pesototal)
+    arq.close()
 
 
 class VerticeAdj():
@@ -342,7 +351,7 @@ class Graph():
                     key[v] = weight
                     minHeap.decreaseKey(v, key[v])
                 aux = aux.next
-        printArr(parent, V,self.graph)
+        printArr(parent, V, self.graph)
 
 
 # ----------------------------------------------------- --------------------------------------------------#
