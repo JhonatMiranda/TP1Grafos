@@ -220,22 +220,33 @@ class Graph():
             return False
 
 
-    def printArr(self, dist):
-        print("Vertex Distance from Source")
-        for i in range(self.V):
-            print("{0}\t\t{1}".format(i, dist[i]))
-    def BellmanFord(self, src):
-        dist = [float("Inf")] * self.V
-        dist[src] = 0
-        for _ in range(self.V - 1):
-            for u, v, w in self.graph:
-                if dist[u] != float("Inf") and dist[u] + w < dist[v]:
-                    dist[v] = dist[u] + w
-        for u, v, w in self.graph:
-            if dist[u] != float("Inf") and dist[u] + w < dist[v]:
-                print("Graph contains negative weight cycle")
-                return
-        self.printArr(dist)
+    # def printArr(self, dist):
+    #     print("Vertex Distance from Source")
+    #     for i in range(self.V -1):
+    #         print("{0}\t\t{1}".format(i+1, dist[i]))
+
+            
+    # def BellmanFord(self, src):
+    #     dist = [float("Inf")] * (self.V -1)
+    #     dist[src] = 0
+        
+    #     for _ in range(self.V):
+    #         aux = self.graph[src]
+    #         while aux:
+    #             u = aux.vertice
+    #             v = aux.next.vertice
+    #             if dist[u] != float("Inf") and dist[u] + aux.next.weight < dist[v]:
+    #                 dist[v] = dist[u] + aux.next.weight
+    #             aux = aux.next
+
+    #     aux = self.graph[src]
+    #     while aux:
+    #         u = aux.vertice
+    #         v = aux.next.vertice
+    #         if dist[u] != float("Inf") and dist[u] + aux.next.weight < dist[v]:
+    #             print("Negative weight cycle exists")
+    #             return
+    #     self.printArr(dist)
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -265,4 +276,4 @@ if __name__ == "__main__":
     #     print("Grafo com ciclo")
     # else:
     #     print("Grafo sem ciclo")
-    matpes.BellmanFord(0)
+    # matpes.BellmanFord(1)
