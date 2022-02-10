@@ -220,6 +220,25 @@ class Graph():
             return False
 
 
+<<<<<<< Updated upstream
+=======
+    def printArr(self, dist):
+        print("Vertex Distance from Source")
+        for i in range(self.V):
+            print("{0}\t\t{1}".format(i, dist[i]))
+    def BellmanFord(self, src):
+        dist = [float("Inf")] * self.V
+        dist[src] = 0
+        for _ in range(self.V - 1):
+            for u, v, w in self.graph:
+                if dist[u] != float("Inf") and dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
+        for u, v, w in self.graph:
+            if dist[u] != float("Inf") and dist[u] + w < dist[v]:
+                print("Graph contains negative weight cycle")
+                return
+        self.printArr(dist)
+>>>>>>> Stashed changes
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -245,7 +264,12 @@ if __name__ == "__main__":
     #       if matriz_aresta_retorno[i][j] == 1:
     #           print(i+1,j+1)
     #           matriz_aresta_retorno[j][i] = 0
+<<<<<<< Updated upstream
     if matpes.isCyclic() == True:
         print("Grafo com ciclo")
     else:
         print("Grafo sem ciclo")
+=======
+    # print(matpes.isCyclic())
+    matpes.BellmanFord(0)
+>>>>>>> Stashed changes
