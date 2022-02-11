@@ -7,6 +7,27 @@ from menu import simpleMenu, pause
 from collections import defaultdict
 from ipython_genutils.py3compat import xrange
 
+class bcolors:
+    Preto = '\033[1;30m'
+    Vermelho = '\033[1;31m'
+    Verde = '\033[1;32m'
+    Amarelo = '\033[1;33m'
+    Azul = '\033[1;34m'
+    Magenta = '\033[1;35m'
+    Cyan = '\033[1;36m'
+    CinzaC = '\033[1;37m'
+    CinzaE = '\033[1;90m'
+    VermelhoC = '\033[1;91m'
+    VerdeC = '\033[1;92m'
+    AmareloC = '\033[1;93m'
+    AzulC = '\033[1;94m'
+    MagentaC = '\033[1;95m'
+    CyanC = '\033[1;96m'
+    Branco = '\033[1;97m'
+    Negrito = '\033[;1m'
+    Inverte = '\033[;7m'
+    Reset = '\033[0;0m'
+
 
 class Heap():
 
@@ -190,7 +211,7 @@ class Graph():
             if visited[aux.vertice] == False:
                 parent[aux.vertice] = u
                 children += 1
-                self.APUtil(aux.vertice, visited, ap, parent, low, disc)
+                self.ap_util(aux.vertice, visited, ap, parent, low, disc)
 
                 low[u] = min(low[u], low[aux.vertice])
 
@@ -218,7 +239,7 @@ class Graph():
 
         for index, value in enumerate(ap):
             if value == True:
-                print(index, end=" ")
+                return index
 
     def unmark_all(self, marked):
         for i in xrange(0, self.V):
@@ -263,15 +284,6 @@ class Graph():
                                 matriz_retorno[s - 1][aux.vertice - 1] = 1
                             aux_temp = aux_temp.next
                 aux = aux.next
-
-    # def print_graph(self):
-    #     for i in range(1, self.V):
-    #         print("Lista de vertices adjacentes {}\n cabecalho".format(i), end="")
-    #         temp = self.graph[i]
-    #         while temp:
-    #             print(" -- {} W: {} || ".format(temp.vertice, temp.weight), end="")
-    #             temp = temp.next
-    #         print(" \n")
 
     def componentes_conexas(self):
         visitados = []
@@ -354,66 +366,46 @@ class Graph():
                 aux = aux.next
         printArr(parent, V, self.graph)
 
-    # A function used by isConnected
     def DFSUtil(self, v, visited):
-        # Mark the current node as visited
         visited[v] = True
 
-        # Recur for all the vertices adjacent to this vertex
         aux=self.graph[v]
         while aux:
             if visited[aux.vertice] == False:
                 self.DFSUtil(aux.vertice, visited)
             aux=aux.next
 
-    '''Method to check if all non-zero degree vertices are
-    connected. It mainly does DFS traversal starting from
-    node with non-zero degree'''
 
     def isConnected(self):
 
-        # Mark all the vertices as not visited
+        
         visited = [False] * (self.V)
 
-        #  Find a vertex with non-zero degree
         for i in range(self.V):
             if matpes.grau(i) > 1:
                 break
 
-        # If there are no edges in the graph, return true
         if i == self.V - 1:
             return True
 
-        # Start DFS traversal from a vertex with non-zero degree
         self.DFSUtil(i, visited)
 
-        # Check if all non-zero degree vertices are visited
         for i in range(self.V):
             if visited[i] == False and len(self.graph[i]) > 0:
                 return False
 
         return True
 
-    '''The function returns one of the following values
-       0 --> If graph is not Eulerian
-       1 --> If graph has an Euler path (Semi-Eulerian)
-       2 --> If graph has an Euler Circuit (Eulerian)  '''
 
     def isEulerian(self):
-        # Check if all non-zero degree vertices are connected
         if self.isConnected() == False:
             return 0
         else:
-            # Count vertices with odd degree
+            
             odd = 0
             for i in range(self.V):
                 if (matpes.grau(i)) % 2 != 0:
                     odd += 1
-
-            '''If odd count is 2, then semi-eulerian.
-            If odd count is 0, then eulerian
-            If count is more than 2, then graph is not Eulerian
-            Note that odd count can never be 1 for undirected graph'''
             if odd == 0:
                 return 2
             elif odd == 2:
@@ -421,16 +413,16 @@ class Graph():
             elif odd > 2:
                 return 0
 
-    # Function to run test cases
+    
 
     def test(self):
         res = self.isEulerian()
         if res == 0:
-            print("graph is not Eulerian")
+            print("Grafo não é Euleriano")
         elif res == 1:
-            print("graph has a Euler path")
+            print("Grafo tem um caminho de Euler")
         else:
-            print("graph has a Euler cycle")
+            print("Grafo tem um circuito de Euler")
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -472,32 +464,43 @@ if __name__ == "__main__":
 
     def option_4():
         vert = int(input("Digite o valor do vertice: "))
-        matpes.vizinhos(vert)
+        vet_vizinhos = []
+        vet_vizinhos = matpes.vizinhos(vert)
+        for i in vet_vizinhos:
+            print(i)
         pause()
 
     def option_5():
         vert = int(input("Digite o valor do vertice: "))
-        matpes.grau(vert)
-        pause
+        print(matpes.grau(vert))
+        pause()
 
     def option_6():
-        matpes.AP()
+        vet = []
+        vet.append(matpes.AP())
+        vert = int(input("Digite o valor do vertice: "))
+        if vert in vet:
+            print("Vértice escolhido é uma articulação")
+        else:
+            print("Vértice escolhido não é uma articulação")
         pause()
 
     def option_7():
-        matriz_aresta_retorno = [
-            [0 for y in range(qtvertices)] for x in range(qtvertices)]
+        print("A sequência de vértices visitados na busca em largura é: \n")
+        matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
         matpes.BFS(1, matriz_aresta_retorno)
         print()
+        print("A(s) aresta(s) que não faz(em) parte da árvore de busca em largura são: \n")
         for i in range(qtvertices):
             for j in range(qtvertices):
                 if matriz_aresta_retorno[i][j] == 1:
-                    print(i+1, j+1)
+                    print(i+1, "-", j+1)
                     matriz_aresta_retorno[j][i] = 0
         pause()
 
     def option_8():
-        matpes.componentes_conexas()
+        print("As componentes conexas são: \n")
+        print(matpes.componentes_conexas())
         pause()
 
     def option_9():
@@ -517,7 +520,25 @@ if __name__ == "__main__":
 
     def option_11():
         matpes.PrimMST()
+        print("O arquivo de saída foi criado com sucesso!!!")
         pause()
     
     def option_12():
-        
+        matpes.test()
+        pause()
+    
+    sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
+    sMenu.spacing = [ '0','d' ]
+    sMenu.menu_option_add(option_1,'Retornar a ordem do grafo')
+    sMenu.menu_option_add(option_2,'Retornar o tamanho do grafo')
+    sMenu.menu_option_add(option_3,'Retornar a densidade do grafo')
+    sMenu.menu_option_add(option_4,'Retornar os vizinhos de um vertice fornecido')
+    sMenu.menu_option_add(option_5,'Determinar o grau de um vértice fornecido')
+    sMenu.menu_option_add(option_6,'Verificar se um vértice é articulação')
+    sMenu.menu_option_add(option_7,'Determinar a sequência de vértices visitados na busca em largura e informar a(s) aresta(s) que não faz(em) parte da árvore de busca em largura')
+    sMenu.menu_option_add(option_8,'Determinar o número de componentes conexas do grafo e os vértices de cada componente')
+    sMenu.menu_option_add(option_9,'Verificar se um grafo possui ciclo')
+    #sMenu.menu_option_add(option_10,)
+    sMenu.menu_option_add(option_11,'Determinar a árvore geradora mínima de um grafo')
+    sMenu.menu_option_add(option_12,'Verificar se um grafo é euleriano')
+    sMenu.menu_start() 
