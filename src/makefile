@@ -1,4 +1,4 @@
-INPUT = ../data/grafo_1.json
+INPUT = ../data/entrada.txt
 
 MAIN = grafo.py
 

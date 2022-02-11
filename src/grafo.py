@@ -1,6 +1,8 @@
 import math
 import sys
 import json
+from textwrap import indent
+from attr import fields
 import numpy as np
 import networkx as nx
 from platform import node
@@ -157,9 +159,13 @@ class Graph():
         self.G.add_node(u)
         self.G.add_node(v)
         self.G.add_edge(u, v, weight=weight)
+#___________________________________________________________________________________________________#
+    '''Retornar a ordem do grafo'''
 
     def ordem(self):
         return self.V - 1
+#___________________________________________________________________________________________________#
+    '''Retornar o tamanho do grafo'''
 
     def tamanho(self):
         tamanho = 0
@@ -169,10 +175,14 @@ class Graph():
                 tamanho += 1
                 aux = aux.next
         return tamanho // 2
+#___________________________________________________________________________________________________#
+    '''Retornar a densidade ε(G) do grafo'''
 
     def densidade(self):
         return self.tamanho() / (self.V - 1)
-
+#___________________________________________________________________________________________________#
+    '''Retornar os vizinhos de um vértice fornecido'''
+    
     def vizinhos(self, vertice_escolhido):
         vizinhos = []
         encontrado = False
@@ -184,6 +194,8 @@ class Graph():
                     vizinhos.append(aux.vertice)
                     aux = aux.next
         return vizinhos
+#___________________________________________________________________________________________________#
+    '''Determinar o grau de um vértice fornecido'''
 
     def grau(self, vertice_escolhido):
         grau = 0
@@ -194,6 +206,8 @@ class Graph():
                     grau += 1
                 aux = aux.next
         return grau
+#___________________________________________________________________________________________________#
+    '''Verificar se um vértice é articulação'''
 
     def ap_util(self, u, visited, ap, parent, low, disc):
 
@@ -241,6 +255,9 @@ class Graph():
         for index, value in enumerate(ap):
             if value == True:
                 return index
+#___________________________________________________________________________________________________#
+    '''Determinar a sequência de vértices visitados na busca em largura e informar a(s)
+aresta(s) que não faz(em) parte da árvore de busca em largura.'''
 
     def unmark_all(self, marked):
         for i in xrange(0, self.V):
@@ -285,6 +302,9 @@ class Graph():
                                 matriz_retorno[s - 1][aux.vertice - 1] = 1
                             aux_temp = aux_temp.next
                 aux = aux.next
+#___________________________________________________________________________________________________#
+    '''Determinar o número de componentes conexas do grafo e os vértices de cada
+componente'''
 
     def componentes_conexas(self):
         visitados = []
@@ -308,6 +328,8 @@ class Graph():
                 aux = self.DFScompconexas(aux, aux_graph.vertice, visitados)
             aux_graph = aux_graph.next
         return aux
+#___________________________________________________________________________________________________#
+    '''Verificar se um grafo possui ciclo'''
 
     def isCyclicUtil(self, v, visited, parent):
         visited[v] = True
@@ -329,6 +351,8 @@ class Graph():
                         (i, visited, -1)) == True:
                     return True
         return False
+#___________________________________________________________________________________________________#
+    '''Determinar a árvore geradora mínima de um grafo'''
 
     def PrimMST(self):
         V = self.V
@@ -366,6 +390,9 @@ class Graph():
                     minHeap.decreaseKey(v, key[v])
                 aux = aux.next
         printArr(parent, V, self.graph)
+#___________________________________________________________________________________________________#
+    '''A árvore geradora mínima deve ser escrita em um arquivo (no mesmo
+formato de entrada do grafo), assim como seu peso total'''
 
     def DFSUtil(self, v, visited):
         visited[v] = True
@@ -397,6 +424,9 @@ class Graph():
 
         return True
 
+#___________________________________________________________________________________________________#
+    '''Verificar se um grafo é euleriano. Em caso afirmativo, determinar uma cadeia
+euleriana fechada'''
 
     def isEulerian(self):
         if self.isConnected() == False:
@@ -424,12 +454,47 @@ class Graph():
             print("Grafo tem um caminho de Euler")
         else:
             print("Grafo tem um circuito de Euler")
-    
+#___________________________________________________________________________________________________#
+ 
 def cleanFiles():
     arq1 = open("../out/saida.txt","a")
     arq1.truncate(0)
     arq1.close()
-# ----------------------------------------------------- --------------------------------------------------#
+
+def convert_file():
+    filename = input("Digite o nome do arquivo: ")
+
+    dict1 = {}
+
+    fields = ['vertice 1', 'vertice 2', 'peso']
+
+    with open(filename) as fh:
+
+        l = 1
+
+        for line in fh:
+            description = list(line.strip().split(None, 3))
+
+            sno = 'graph'+str(l)
+
+            i = 0
+            dict2 = {}
+
+            while i < len(fields):
+
+                dict2[fields[i]] = description[i]
+                i += 1
+
+            dict1[sno] = dict2
+            l += 1
+    
+    out_file = open("../data/grafo_saida.json", "w")
+    json.dump(dict1, out_file, indent = 4)
+    out_file.close()
+
+
+#_______________________________________________MAIN____________________________________________________#
+
 if __name__ == "__main__":
 
     cleanFiles()
@@ -506,12 +571,12 @@ if __name__ == "__main__":
 
     def option_7():
         print("A sequência de vértices visitados na busca em largura é: \n")
-        matriz_aresta_retorno = [[0 for y in range(V)] for x in range(V)]
+        matriz_aresta_retorno = [[0 for y in range(int(V))] for x in range(int(V))]
         matpes.BFS(1, matriz_aresta_retorno)
         print()
         print("A(s) aresta(s) que não faz(em) parte da árvore de busca em largura são: \n")
-        for i in range(V):
-            for j in range(V):
+        for i in range(int(V)):
+            for j in range(int(V)):
                 if matriz_aresta_retorno[i][j] == 1:
                     print(i+1, "-", j+1)
                     matriz_aresta_retorno[j][i] = 0
@@ -546,6 +611,11 @@ if __name__ == "__main__":
         matpes.test()
         pause()
     
+    def option_13():
+        print("Passar o diretorio do arquivo, ex: ../data/nome.txt")
+        convert_file()
+        pause()
+    
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
     sMenu.spacing = [ '0','d' ]
     sMenu.menu_option_add(option_1,'Retornar a ordem do grafo')
@@ -560,4 +630,5 @@ if __name__ == "__main__":
     #sMenu.menu_option_add(option_10,)
     sMenu.menu_option_add(option_11,'Determinar a árvore geradora mínima de um grafo')
     sMenu.menu_option_add(option_12,'Verificar se um grafo é euleriano')
+    sMenu.menu_option_add(option_13,'Transformar .txt em .json')
     sMenu.menu_start() 

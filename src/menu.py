@@ -44,7 +44,7 @@ class simpleMenu( ):
 		#creates menuNames that stores user readable name
 		#with the same index as the function related to it
 
-		self.menuOptions = 	{ '0': [ self.Back, f' {bcolors.Vermelho}SAIR{bcolors.Reset}'] }
+		self.menuOptions = 	{ '0': [ self.Back, f' {bcolors.Verde}SAIR{bcolors.Reset}'] }
 		if ( title != '' ):
 			self.title = title
 		
@@ -145,7 +145,7 @@ class simpleMenu( ):
 				self.menu_print()
 
 				#gets user choice
-				inp = input(f'{bcolors.Amarelo}Escolha ->{bcolors.Reset} ')
+				inp = input(f'{bcolors.Azul}Escolha ->{bcolors.Reset} ')
 				if(inp != ''):
 					menuOption = self.menuOptions.get(inp, False)
 					if(menuOption):
