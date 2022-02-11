@@ -115,7 +115,7 @@ def printArr(parent, n, grafo):
     vetoraux = []
     arq = open("../out/saida.txt", "w")
     arq.write("Lista de arestas da MST: \n")
-    for i in range(1, n):
+    for i in range(1, n-1):
         vetoraux = matpes.vizinhos(i)
         if(vetoraux.index(parent[i])):
             pesototal += grafo[i].next.weight
@@ -424,24 +424,46 @@ class Graph():
             print("Grafo tem um caminho de Euler")
         else:
             print("Grafo tem um circuito de Euler")
+    
+def cleanFiles():
+    arq1 = open("../out/saida.txt","a")
+    arq1.truncate(0)
+    arq1.close()
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
-    arq = open("../data/entrada.txt")
-    qtvertices = arq.readline()
-    qtvertices = int(qtvertices)
-    matpes = Graph(qtvertices + 1)
-    while True:
-        try:
-            linha = arq.readline()
-            if not linha:
-                break
-            else:
-                linha_limpa = linha.split(" ")
-                matpes.add_edge(int(linha_limpa[0]), int(
-                    linha_limpa[1]), float(linha_limpa[2]))
-        except:
-            print("erro")
+    cleanFiles()
+    with open(str(sys.argv[2]), 'r') as file_input:
+        V=0
+        read_file = None
+        if str(sys.argv[2])[8:].split(".")[1]=="txt":
+            V = file_input.readline()
+        else:
+            read_file = json.load(file_input)
+            V = read_file['data']['nodes']['length']
+
+        matpes = Graph(int(V)+1)
+        if str(sys.argv[2])[8:].split(".")[1]=="txt":
+            while True:
+                try:
+                    linha = file_input.readline()
+                    if not linha:
+                        break
+                    else:
+                        linha_limpa = linha.split(" ")
+                        matpes.add_edge(int(linha_limpa[0]), int(
+                            linha_limpa[1]), float(linha_limpa[2]))
+                except:
+                    print("erro")
+        else:
+            lines = read_file['data']['edges']['_data']
+            for i in range (len(lines)):
+                line = lines["{}".format(i+1)]
+                matpes.add_edge(int(line['from']), int(line['to']), float(line['label']))
+
+    # arq = open("../data/entrada.txt")
+    # qtvertices = arq.readline()
+    # qtvertices = int(qtvertices)
 
     def option_1():
         arq = open("../out/saida.txt", "a")
@@ -488,12 +510,12 @@ if __name__ == "__main__":
 
     def option_7():
         print("A sequência de vértices visitados na busca em largura é: \n")
-        matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
+        matriz_aresta_retorno = [[0 for y in range(V)] for x in range(V)]
         matpes.BFS(1, matriz_aresta_retorno)
         print()
         print("A(s) aresta(s) que não faz(em) parte da árvore de busca em largura são: \n")
-        for i in range(qtvertices):
-            for j in range(qtvertices):
+        for i in range(V):
+            for j in range(V):
                 if matriz_aresta_retorno[i][j] == 1:
                     print(i+1, "-", j+1)
                     matriz_aresta_retorno[j][i] = 0
