@@ -461,10 +461,6 @@ if __name__ == "__main__":
                 line = lines["{}".format(i+1)]
                 matpes.add_edge(int(line['from']), int(line['to']), float(line['label']))
 
-    # arq = open("../data/entrada.txt")
-    # qtvertices = arq.readline()
-    # qtvertices = int(qtvertices)
-
     def option_1():
         arq = open("../out/saida.txt", "a")
         arq.write("\n--------------------------------------------------\n")
