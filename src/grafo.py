@@ -8,7 +8,6 @@ from collections import defaultdict
 from ipython_genutils.py3compat import xrange
 
 
-
 class Heap():
 
     def __init__(self):
@@ -265,14 +264,14 @@ class Graph():
                             aux_temp = aux_temp.next
                 aux = aux.next
 
-    def print_graph(self):
-        for i in range(1, self.V):
-            print("Lista de vertices adjacentes {}\n cabecalho".format(i), end="")
-            temp = self.graph[i]
-            while temp:
-                print(" -- {} W: {} || ".format(temp.vertice, temp.weight), end="")
-                temp = temp.next
-            print(" \n")
+    # def print_graph(self):
+    #     for i in range(1, self.V):
+    #         print("Lista de vertices adjacentes {}\n cabecalho".format(i), end="")
+    #         temp = self.graph[i]
+    #         while temp:
+    #             print(" -- {} W: {} || ".format(temp.vertice, temp.weight), end="")
+    #             temp = temp.next
+    #         print(" \n")
 
     def componentes_conexas(self):
         visitados = []
@@ -355,6 +354,7 @@ class Graph():
                 aux = aux.next
         printArr(parent, V, self.graph)
 
+
 # ----------------------------------------------------- --------------------------------------------------#
 if __name__ == "__main__":
 
@@ -373,24 +373,19 @@ if __name__ == "__main__":
                     linha_limpa[1]), float(linha_limpa[2]))
         except:
             print("erro")
-    # 
-    # if matpes.isCyclic() == True:
-    #     print("Grafo com ciclo")
-    # else:
-    #     print("Grafo sem ciclo")
-    
+
     def option_1():
         arq = open("../out/saida.txt", "a")
         arq.write("\n--------------------------------------------------\n")
-        arq.write("\nO grafo tem ordem {}\n".format(matpes.ordem())) 
+        arq.write("\nO grafo tem ordem {}\n".format(matpes.ordem()))
         arq.close()
         print("\nO grafo tem ordem {}\n".format(matpes.ordem()))
         pause()
-    
+
     def option_2():
-        arq = open("../out/saida.txt","a")      
+        arq = open("../out/saida.txt", "a")
         arq.write("\n--------------------------------------------------\n")
-        arq.write("\nO grafo tem tamanho {}\n".format(matpes.tamanho())) 
+        arq.write("\nO grafo tem tamanho {}\n".format(matpes.tamanho()))
         arq.close()
         print("\nO grafo tem tamanho {}\n".format(matpes.tamanho()))
         pause()
@@ -398,31 +393,55 @@ if __name__ == "__main__":
     def option_3():
         print("Densidade do grafo: ", matpes.densidade())
         pause()
-    
+
     def option_4():
         vert = int(input("Digite o valor do vertice: "))
         matpes.vizinhos(vert)
         pause()
-    
+
     def option_5():
         vert = int(input("Digite o valor do vertice: "))
         matpes.grau(vert)
         pause
-    
+
     def option_6():
         matpes.AP()
         pause()
-    
+
     def option_7():
-        matriz_aresta_retorno = [[0 for y in range(qtvertices)] for x in range(qtvertices)]
-        matpes.BFS(1,matriz_aresta_retorno)
+        matriz_aresta_retorno = [
+            [0 for y in range(qtvertices)] for x in range(qtvertices)]
+        matpes.BFS(1, matriz_aresta_retorno)
         print()
         for i in range(qtvertices):
             for j in range(qtvertices):
-              if matriz_aresta_retorno[i][j] == 1:
-                  print(i+1,j+1)
-                  matriz_aresta_retorno[j][i] = 0
+                if matriz_aresta_retorno[i][j] == 1:
+                    print(i+1, j+1)
+                    matriz_aresta_retorno[j][i] = 0
+        pause()
+
+    def option_8():
+        matpes.componentes_conexas()
+        pause()
+
+    def option_9():
+        if matpes.isCyclic() == True:
+            print("Grafo possui ciclo")
+        else:
+            print("Grafo sem ciclo")
+
         pause()
     
-    def option_8():
+    #def option_10():
+        # vert_origem = int(input("Digite o vertice de origem: "))
+
+        # for x in nx.shortest_path(matpes, vert_origem, x, matpes.graph[x].weight):
+        #     print(x)
+
+
+    def option_11():
+        matpes.PrimMST()
+        pause()
+    
+    def option_12():
         
