@@ -1,3 +1,5 @@
+INPUT = ../data/entrada.txt
+
 MAIN = grafo.py
 
 all:
