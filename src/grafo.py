@@ -454,6 +454,35 @@ euleriana fechada'''
             print("Grafo tem um caminho de Euler")
         else:
             print("Grafo tem um circuito de Euler")
+    #___________________________________________________________________________________________________#
+    '''DSatur'''
+    def DSatur(self):
+        result = nx.greedy_color(self.G, strategy='DSATUR', interchange=False)
+        cores = list(result.values())
+        print("Numero de cores encontradas: " + str(len(np.unique(cores))))
+
+    #___________________________________________________________________________________________________#
+    '''Determinar o conjunto independente ou estável de um grafo por meio de uma
+heurística gulosa'''
+    def conjuntoindependente(self):
+        s = []
+        n=[]
+        for i in range(1,self.V):
+            n.append((self.grau(i),-i))
+        n = sorted(n,reverse=True)
+        n = [(i,-j) for (i,j) in n]
+        visitado = [False for i in range (self.V)]
+        k = 0
+        while k < self.V-1:
+            if visitado[n[k][1]]: 
+                k +=1
+            else:
+                visitado[n[k][1]] = True
+                for x in self.vizinhos(n[k][1]):
+                    visitado[x] = True
+                s.append(n[k][1])
+        print(s)
+
 #___________________________________________________________________________________________________#
  
 def cleanFiles():
@@ -491,6 +520,7 @@ def convert_file():
     out_file = open("../data/grafo_saida.json", "w")
     json.dump(dict1, out_file, indent = 4)
     out_file.close()
+
 
 
 #_______________________________________________MAIN____________________________________________________#
@@ -594,26 +624,27 @@ if __name__ == "__main__":
             print("Grafo sem ciclo")
 
         pause()
-    
-    #def option_10():
-        # vert_origem = int(input("Digite o vertice de origem: "))
 
-        # for x in nx.shortest_path(matpes, vert_origem, x, matpes.graph[x].weight):
-        #     print(x)
-
-
-    def option_11():
+    def option_10():
         matpes.PrimMST()
         print("O arquivo de saída foi criado com sucesso!!!")
         pause()
     
-    def option_12():
+    def option_11():
         matpes.test()
         pause()
     
-    def option_13():
+    def option_12():
         print("Passar o diretorio do arquivo, ex: ../data/nome.txt")
         convert_file()
+        pause()
+
+    def option_13():
+        matpes.DSatur()
+        pause()
+
+    def option_14():
+        matpes.conjuntoindependente()
         pause()
     
     sMenu = simpleMenu(f'{bcolors.Branco}TRABALHO GRAFOS{bcolors.Reset}')
@@ -627,8 +658,9 @@ if __name__ == "__main__":
     sMenu.menu_option_add(option_7,'Determinar a sequência de vértices visitados na busca em largura e informar a(s) aresta(s) que não faz(em) parte da árvore de busca em largura')
     sMenu.menu_option_add(option_8,'Determinar o número de componentes conexas do grafo e os vértices de cada componente')
     sMenu.menu_option_add(option_9,'Verificar se um grafo possui ciclo')
-    #sMenu.menu_option_add(option_10,)
-    sMenu.menu_option_add(option_11,'Determinar a árvore geradora mínima de um grafo')
-    sMenu.menu_option_add(option_12,'Verificar se um grafo é euleriano')
-    sMenu.menu_option_add(option_13,'Transformar .txt em .json')
+    sMenu.menu_option_add(option_10,'Determinar a árvore geradora mínima de um grafo')
+    sMenu.menu_option_add(option_11,'Verificar se um grafo é euleriano')
+    sMenu.menu_option_add(option_12,'Transformar .txt em .json')
+    sMenu.menu_option_add(option_13,'Determinar o número cromático de um grafo')
+    sMenu.menu_option_add(option_14,'Determinar o conjunto independente ou estável de um grafo')
     sMenu.menu_start() 
