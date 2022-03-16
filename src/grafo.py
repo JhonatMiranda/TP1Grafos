@@ -139,6 +139,11 @@ class VerticeAdj():
         self.next = None
         self.explored = False
 
+class Graph_directed():
+    def __init__(self):
+        self.dir_Graph = nx.DiGraph()
+    def add_edge_directed(self, u, v):
+        self.dir_Graph.add_edge(u, v)
 
 class Graph():
     def __init__(self, vertices):
@@ -159,6 +164,7 @@ class Graph():
         self.G.add_node(u)
         self.G.add_node(v)
         self.G.add_edge(u, v, weight=weight)
+
 #___________________________________________________________________________________________________#
     '''Retornar a ordem do grafo'''
 
@@ -536,20 +542,44 @@ if __name__ == "__main__":
         else:
             read_file = json.load(file_input)
             V = read_file['data']['nodes']['length']
-
+        
+        
         matpes = Graph(int(V)+1)
         if str(sys.argv[2])[8:].split(".")[1]=="txt":
-            while True:
-                try:
-                    linha = file_input.readline()
-                    if not linha:
-                        break
-                    else:
-                        linha_limpa = linha.split(" ")
-                        matpes.add_edge(int(linha_limpa[0]), int(
-                            linha_limpa[1]), float(linha_limpa[2]))
-                except:
-                    print("erro")
+            print("Digite N para grafos nao direcionados e D para grafos direcionados")
+            choice = input()
+            if (choice == 'N'):
+                while True:
+                    try:
+                        linha = file_input.readline()
+                        if not linha:
+                            break
+                        else:
+                            linha_limpa = linha.split(" ")
+                            matpes.add_edge(int(linha_limpa[0]), int(
+                                linha_limpa[1]), float(linha_limpa[2]))
+                    except:
+                        print("erro")
+            else:
+                graphdir = Graph_directed()
+                while True:
+                    try:
+                        linha = file_input.readline()
+                        if not linha:
+                            break
+                        else:
+                            linha_limpa = linha.split(" ")
+                            graphdir.add_edge_directed(int(linha_limpa[0]), int(
+                                linha_limpa[1]))
+                    except:
+                        print("erro")
+                #verificar se o grafo é ciclico e fazer ordenacão topologica
+                if len(list(nx.simple_cycles(graphdir.dir_Graph))) == 0:
+                    print(list(nx.topological_sort(graphdir.dir_Graph)))
+                else:
+                    print("O Grafo possui ciclo portanto não será possivel calcular a ordenacao topologica")
+                
+                exit(0) 
         else:
             lines = read_file['data']['edges']['_data']
             for i in range (len(lines)):
